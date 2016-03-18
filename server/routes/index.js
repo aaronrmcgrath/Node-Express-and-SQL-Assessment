@@ -1,7 +1,9 @@
+// ROUTER - index.js
+
 var express = require('express');
 var router = express.Router();
 var path = require('path');
-var animals = require('routes/animals');
+var animals = require('./animals');
 
 
 router.use('/animals/', animals);
