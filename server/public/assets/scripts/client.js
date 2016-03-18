@@ -8,14 +8,30 @@ var animalArray = [];
 // jQuery on page load
 
 $(document).ready(function(){
-  console.log('Works!');
-  // initDom();
+
+  initDom();
   $('#animal-form').on('submit', addAnimal);
 
 });
 
 
 // Functions
+
+function initDom(){
+  console.log('Works!');
+  appendAnimals();
+}
+
+function getAnimals() {
+  $.ajax({
+    type: 'GET',
+    url: '/animals/get',
+    success: function(data){
+      console.log('GET successful: ', data);
+      console.log(data);
+    }
+  });
+}
 
 function addAnimal() {
   event.preventDefault();
@@ -35,10 +51,25 @@ function addAnimal() {
     type: 'POST',
     url: '/animals/add',
     data: animal,
-    success: function(animal){
-      console.log('POST successful: ', animal);
+    success: function(data){
+      console.log('POST successful: ', data);
     }
   });
 
+  getAnimals();
+
   $('#catform').find('input[type=text]').val('');
+}
+
+function appendAnimals() {
+  getAnimals();
+  $('.display-animals').append('<div class="animals"></div>');
+
+  var $el = $('.animals').children().last();
+
+  for(var i = 0; i < animalArray.length; i++) {
+    $el.append('<p>' + animalArray[i].animal + '</p>');
+  }
+
+
 }
